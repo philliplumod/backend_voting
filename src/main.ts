@@ -13,7 +13,7 @@ async function bootstrap() {
     .setTitle('Voting API')
     .setDescription('API Documentation')
     .setVersion('1.0')
-    .addBearerAuth({ in: 'header', type: 'http' })
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

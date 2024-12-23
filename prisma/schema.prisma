@@ -10,19 +10,19 @@ generator client {
 
 model User {
   user_id         String   @id @default(uuid())
-  username        String   @unique
-  password        String
-  email           String   @unique
-  first_name      String
-  middle_initial  String?  
-  last_name       String
-  suffix          String?  
+  username        String   @unique     
+  email           String   @unique     
+  password        String                       
+  first_name      String                     
+  middle_initial  String?              
+  last_name       String 
+  suffix          String?
+  contact_number  String                        // Contact number
   year_level      Int
-  contact_number  String
-  qr_code         String?  
-  status          String
-  created_at      DateTime @default(now())
+  status          String                 
+  created_at      DateTime @default(now())    
 }
+
 
 
 datasource db {

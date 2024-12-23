@@ -2,15 +2,14 @@
 CREATE TABLE "User" (
     "user_id" TEXT NOT NULL,
     "username" TEXT NOT NULL,
-    "password" TEXT NOT NULL,
     "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "first_name" TEXT NOT NULL,
     "middle_initial" TEXT,
     "last_name" TEXT NOT NULL,
     "suffix" TEXT,
-    "year_level" INTEGER NOT NULL,
     "contact_number" TEXT NOT NULL,
-    "qr_code" TEXT,
+    "year_level" INTEGER NOT NULL,
     "status" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 

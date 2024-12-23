@@ -44,5 +44,10 @@ export class CreateUserDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
+  year_level: number;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
   status: string;
 }

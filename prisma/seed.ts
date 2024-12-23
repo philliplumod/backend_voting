@@ -14,7 +14,6 @@ async function main() {
       suffix: 'Jr',
       year_level: 3,
       contact_number: '1234567890',
-      qr_code: 'QR123456',
       status: 'ACTIVE',
     },
   });

@@ -71,14 +71,13 @@ export class UsersService {
 
   async update(user_id: string, updateUserDto: UpdateUserDto) {
     try {
-      const hashPassword = await hash(updateUserDto.password, 10);
-
+      const dataToUpdate = { ...updateUserDto };
+      if (updateUserDto.password) {
+        dataToUpdate.password = await hash(updateUserDto.password, 10);
+      }
       return this.prisma.user.update({
         where: { user_id },
-        data: {
-          ...updateUserDto,
-          password: hashPassword,
-        },
+        data: dataToUpdate,
       });
     } catch (error) {
       console.error('Error updating user:', error);

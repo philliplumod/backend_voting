@@ -35,8 +35,19 @@ export class UsersService {
 
       return await this.prisma.user.create({
         data: {
-          ...createUserDto,
+          username: createUserDto.username,
+          email: createUserDto.email,
+          first_name: createUserDto.first_name,
+          middle_initial: createUserDto.middle_initial,
+          last_name: createUserDto.last_name,
+          suffix: createUserDto.suffix,
+          contact_number: createUserDto.contact_number,
+          year_level: createUserDto.year_level,
+          status: createUserDto.status,
           password: hashPassword,
+          userRole: {
+            connect: { role_id: createUserDto.user_role_id },
+          },
         },
       });
     } catch (error) {

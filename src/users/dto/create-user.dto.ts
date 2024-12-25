@@ -50,4 +50,9 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   status: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  user_role_id: string;
 }

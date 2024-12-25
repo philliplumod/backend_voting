@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { hash } from 'bcrypt';
+import * as QRCode from 'qrcode';
+import { v4 as uuid } from 'uuid';
 
 const prisma = new PrismaClient();
 
@@ -26,6 +28,11 @@ async function main() {
 
   // Create or update an admin user
   const hashedAdminPassword = await hash('admin123', 10);
+  const adminQrId = uuid();
+  const adminQrData = `User-${adminQrId}`;
+  await QRCode.toBuffer(adminQrData);
+  const adminQrLink = `https://example.com/qrcodes/${adminQrId}.png`; // Update with actual URL if needed
+
   const admin = await prisma.user.upsert({
     where: { username: 'admin' },
     update: {},
@@ -43,12 +50,23 @@ async function main() {
       userRole: {
         connect: { role_id: adminRole.role_id },
       },
+      qrCode: {
+        create: {
+          qr_id: adminQrId,
+          qr_link: adminQrLink,
+        },
+      },
     },
   });
   console.log({ admin });
 
   // Create or update a student user
   const hashedStudentPassword = await hash('student123', 10);
+  const studentQrId = uuid();
+  const studentQrData = `User-${studentQrId}`;
+  await QRCode.toBuffer(studentQrData);
+  const studentQrLink = `https://example.com/qrcodes/${studentQrId}.png`; // Update with actual URL if needed
+
   const student = await prisma.user.upsert({
     where: { username: 'student' },
     update: {},
@@ -65,6 +83,12 @@ async function main() {
       status: 'active',
       userRole: {
         connect: { role_id: studentRole.role_id },
+      },
+      qrCode: {
+        create: {
+          qr_id: studentQrId,
+          qr_link: studentQrLink,
+        },
       },
     },
   });

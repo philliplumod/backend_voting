@@ -55,9 +55,4 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   user_role_id: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsString()
-  qr_code_id: string;
 }

@@ -1,3 +1,4 @@
+// ...existing code...
 import { PrismaClient } from '@prisma/client';
 import { hash } from 'bcrypt';
 import * as QRCode from 'qrcode';
@@ -6,7 +7,6 @@ import { v4 as uuid } from 'uuid';
 const prisma = new PrismaClient();
 
 async function main() {
-  // Seed roles in the UserRole table
   const adminRole = await prisma.userRole.upsert({
     where: { role: 'admin' },
     create: { role: 'admin' },
@@ -26,12 +26,12 @@ async function main() {
   });
   console.log('Roles seeded.');
 
-  // Create or update an admin user
+  // Admin user
   const hashedAdminPassword = await hash('admin123', 10);
   const adminQrId = uuid();
   const adminQrData = `User-${adminQrId}`;
-  await QRCode.toBuffer(adminQrData);
-  const adminQrLink = `https://example.com/qrcodes/${adminQrId}.png`; // Update with actual URL if needed
+  const adminQrBuffer = await QRCode.toBuffer(adminQrData);
+  const adminQrBase64 = adminQrBuffer.toString('base64');
 
   const admin = await prisma.user.upsert({
     where: { username: 'admin' },
@@ -53,19 +53,19 @@ async function main() {
       qrCode: {
         create: {
           qr_id: adminQrId,
-          qr_link: adminQrLink,
+          qr_code: adminQrBase64,
         },
       },
     },
   });
   console.log({ admin });
 
-  // Create or update a student user
+  // Student user
   const hashedStudentPassword = await hash('student123', 10);
   const studentQrId = uuid();
   const studentQrData = `User-${studentQrId}`;
-  await QRCode.toBuffer(studentQrData);
-  const studentQrLink = `https://example.com/qrcodes/${studentQrId}.png`; // Update with actual URL if needed
+  const studentQrBuffer = await QRCode.toBuffer(studentQrData);
+  const studentQrBase64 = studentQrBuffer.toString('base64');
 
   const student = await prisma.user.upsert({
     where: { username: 'student' },
@@ -87,7 +87,7 @@ async function main() {
       qrCode: {
         create: {
           qr_id: studentQrId,
-          qr_link: studentQrLink,
+          qr_code: studentQrBase64,
         },
       },
     },

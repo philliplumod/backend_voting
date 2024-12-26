@@ -13,15 +13,19 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { UsersService } from '../service/users.service';
 import { JwtAuthGuard } from 'src/jwt/jwt-guard';
+import { UserCreateService } from '../service/user-create.service';
 
 @Controller('users')
 @ApiTags('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly createUserService: UserCreateService,
+  ) {}
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+    return this.createUserService.create(createUserDto);
   }
 
   @Get()

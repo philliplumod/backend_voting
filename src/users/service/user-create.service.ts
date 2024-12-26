@@ -8,14 +8,10 @@ import { hash } from 'bcrypt';
 import { CreateUserDto } from '../dto/create-user.dto';
 import * as QRCode from 'qrcode';
 import { v4 as uuid } from 'uuid';
-import { FirebaseRepository } from 'src/firebase.service';
 
 @Injectable()
 export class UserCreateService {
-  constructor(
-    private readonly prisma: PrismaService,
-    private firebaseRepository: FirebaseRepository,
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(createUserDto: CreateUserDto) {
     try {
@@ -38,21 +34,22 @@ export class UserCreateService {
       const hashPassword = await hash(createUserDto.password, 10);
 
       const qrId = uuid();
-      const qrData = `User-${qrId}`;
-      const qrImageBuffer = await QRCode.toBuffer(qrData);
+      const userData = JSON.stringify({
+        fullname: `${createUserDto.first_name} ${createUserDto.middle_initial} ${createUserDto.last_name} ${createUserDto.suffix}`,
+        username: createUserDto.username,
+        email: createUserDto.email,
+        contact_number: createUserDto.contact_number,
+        year_level: createUserDto.year_level,
+        status: createUserDto.status,
+      });
+      const qrImageBuffer = await QRCode.toBuffer(userData);
+      const base64QR =
+        'data:image/png;base64,' + qrImageBuffer.toString('base64');
 
-      // Upload QR code to Firestore using FirebaseRepository
-      await this.firebaseRepository.uploadFileToFirestore(
-        qrId,
-        qrImageBuffer,
-        'image/png',
-      );
-
-      // Store QR link (fileId) in Prisma
       await this.prisma.qrCode.create({
         data: {
           qr_id: qrId,
-          qr_link: qrId, // Reference to Firestore document
+          qr_code: base64QR,
         },
       });
 

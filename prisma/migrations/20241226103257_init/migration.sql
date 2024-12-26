@@ -30,7 +30,7 @@ CREATE TABLE "UserRole" (
 -- CreateTable
 CREATE TABLE "QrCode" (
     "qr_id" TEXT NOT NULL,
-    "qr_link" TEXT NOT NULL,
+    "qr_code" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "QrCode_pkey" PRIMARY KEY ("qr_id")
@@ -43,16 +43,10 @@ CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_user_role_id_key" ON "User"("user_role_id");
-
--- CreateIndex
 CREATE UNIQUE INDEX "User_qr_code_id_key" ON "User"("qr_code_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "UserRole_role_key" ON "UserRole"("role");
-
--- CreateIndex
-CREATE UNIQUE INDEX "QrCode_qr_link_key" ON "QrCode"("qr_link");
 
 -- AddForeignKey
 ALTER TABLE "User" ADD CONSTRAINT "User_user_role_id_fkey" FOREIGN KEY ("user_role_id") REFERENCES "UserRole"("role_id") ON DELETE RESTRICT ON UPDATE CASCADE;

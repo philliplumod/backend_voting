@@ -3,17 +3,19 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-const port = process.env.PORT;
+const port = process.env.PORT || 3000; 
+
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
 
   // Swagger
   const config = new DocumentBuilder()
-    .setTitle('Voting API')
+    .setTitle('E-Voting API')
     .setDescription('API Documentation')
     .setVersion('1.0')
-    .addBearerAuth()
+    .addBearerAuth({ in: 'header', type: 'http' })
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

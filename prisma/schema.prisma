@@ -21,7 +21,7 @@ model User {
   status          String
   created_at      DateTime @default(now())
 
-  user_role_id    String   
+  user_role_id    Int   
   userRole        UserRole @relation(fields: [user_role_id], references: [role_id])
 
   qr_code_id      String  @unique
@@ -29,7 +29,7 @@ model User {
 }
 
   model UserRole {
-  role_id    String   @id @default(uuid())
+  role_id    Int      @id @default(autoincrement())
   role       String   @unique
   created_at DateTime @default(now())
 

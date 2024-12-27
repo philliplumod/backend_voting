@@ -54,5 +54,5 @@ export class CreateUserDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
-  user_role_id: string;
+  user_role_id: number;
 }

@@ -3,10 +3,10 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
@@ -42,7 +42,7 @@ export class UsersController {
     return this.usersService.findOne(user_id);
   }
 
-  @Patch(':user_id')
+  @Put(':user_id')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   update(

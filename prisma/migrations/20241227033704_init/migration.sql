@@ -12,7 +12,7 @@ CREATE TABLE "User" (
     "year_level" INTEGER NOT NULL,
     "status" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "user_role_id" TEXT NOT NULL,
+    "user_role_id" INTEGER NOT NULL,
     "qr_code_id" TEXT NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("user_id")
@@ -20,7 +20,7 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "UserRole" (
-    "role_id" TEXT NOT NULL,
+    "role_id" SERIAL NOT NULL,
     "role" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 

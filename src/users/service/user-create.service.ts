@@ -41,8 +41,7 @@ export class UserCreateService {
         status: createUserDto.status,
       });
       const qrBuffer = await QRCode.toBuffer(userData);
-      const qrImageBuffer =
-        'data:image/png;base64,' + qrBuffer.toString('base64');
+      const qrImageBuffer = '' + qrBuffer.toString('base64');
 
       const user = await this.prisma.user.create({
         data: {

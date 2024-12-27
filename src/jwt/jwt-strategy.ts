@@ -12,7 +12,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: configService.get<string>('JWT_SECRET'), // Use ConfigService
+      secretOrKey: configService.get<string>('JWT_SECRET'),
     });
   }
 
@@ -27,6 +27,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       throw new UnauthorizedException('User not found');
     }
 
-    return user; // Return the validated user
+    return user;
   }
 }

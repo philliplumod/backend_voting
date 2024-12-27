@@ -29,22 +29,22 @@ export class UsersController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard)
+  // @ApiBearerAuth()
   findAll() {
     return this.usersService.findAll();
   }
 
   @Get(':user_id')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard)
+  // @ApiBearerAuth()
   findOne(@Param('user_id') user_id: string) {
     return this.usersService.findOne(user_id);
   }
 
   @Put(':user_id')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard)
+  // @ApiBearerAuth()
   update(
     @Param('user_id') user_id: string,
     @Body() updateUserDto: UpdateUserDto,
@@ -53,8 +53,8 @@ export class UsersController {
   }
 
   @Delete(':user_id')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  // @UseGuards(JwtAuthGuard)
+  // @ApiBearerAuth()
   remove(@Param('user_id') user_id: string) {
     return this.usersService.remove(user_id);
   }

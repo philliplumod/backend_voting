@@ -7,12 +7,13 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { hash } from 'bcrypt';
 import { CreateUserDto } from '../dto/create-user.dto';
 import * as QRCode from 'qrcode';
+import { User } from '../interface/user.interface';
 
 @Injectable()
 export class UserCreateService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     try {
       const existingUserByEmail = await this.prisma.user.findUnique({
         where: { email: createUserDto.email },

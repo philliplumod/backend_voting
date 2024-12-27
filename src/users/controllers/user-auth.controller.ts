@@ -3,6 +3,7 @@ import { AuthService } from '../service/user-auth.service';
 import { LoginUserDto } from '../dto/login-user.dto';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { AuthEntity } from 'src/auth/auth.entity';
+import { User } from '../interface/user.interface';
 
 @Controller('auth-user')
 @ApiTags('auth-user')
@@ -11,7 +12,9 @@ export class UserAuthController {
 
   @Post('login')
   @ApiOkResponse({ type: AuthEntity })
-  login(@Body() { username, password }: LoginUserDto) {
+  login(
+    @Body() { username, password }: LoginUserDto,
+  ): Promise<{ auth: AuthEntity; user: User }> {
     return this.authService.login(username, password);
   }
 }

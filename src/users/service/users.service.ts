@@ -6,16 +6,17 @@ import {
 import { PrismaService } from 'src/prisma/prisma.service';
 import { hash } from 'bcrypt';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { User } from '../interface/user.interface';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
-  findAll() {
+  findAll(): Promise<User[]> {
     return this.prisma.user.findMany();
   }
 
-  async findOne(user_id: string) {
+  async findOne(user_id: string): Promise<User> {
     try {
       const user = await this.prisma.user.findUnique({ where: { user_id } });
 
@@ -32,7 +33,7 @@ export class UsersService {
     }
   }
 
-  async update(user_id: string, updateUserDto: UpdateUserDto) {
+  async update(user_id: string, updateUserDto: UpdateUserDto): Promise<User> {
     try {
       const dataToUpdate = { ...updateUserDto };
       if (updateUserDto.password) {
@@ -51,7 +52,7 @@ export class UsersService {
     }
   }
 
-  async remove(user_id: string) {
+  async remove(user_id: string): Promise<User> {
     try {
       return await this.prisma.user.delete({ where: { user_id } });
     } catch (error) {

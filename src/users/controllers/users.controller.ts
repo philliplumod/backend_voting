@@ -12,6 +12,7 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { UsersService } from '../service/users.service';
 import { UserCreateService } from '../service/user-create.service';
+import { User } from '../interface/user.interface';
 
 @Controller('users')
 @ApiTags('users')
@@ -22,21 +23,21 @@ export class UsersController {
   ) {}
 
   @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
+  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.createUserService.create(createUserDto);
   }
 
   @Get()
   // @UseGuards(JwtAuthGuard)
   // @ApiBearerAuth()
-  findAll() {
+  findAll(): Promise<User[]> {
     return this.usersService.findAll();
   }
 
   @Get(':user_id')
   // @UseGuards(JwtAuthGuard)
   // @ApiBearerAuth()
-  findOne(@Param('user_id') user_id: string) {
+  findOne(@Param('user_id') user_id: string): Promise<User> {
     return this.usersService.findOne(user_id);
   }
 
@@ -46,14 +47,14 @@ export class UsersController {
   update(
     @Param('user_id') user_id: string,
     @Body() updateUserDto: UpdateUserDto,
-  ) {
+  ): Promise<User> {
     return this.usersService.update(user_id, updateUserDto);
   }
 
   @Delete(':user_id')
   // @UseGuards(JwtAuthGuard)
   // @ApiBearerAuth()
-  remove(@Param('user_id') user_id: string) {
+  remove(@Param('user_id') user_id: string): Promise<User> {
     return this.usersService.remove(user_id);
   }
 }

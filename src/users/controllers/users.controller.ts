@@ -5,14 +5,12 @@ import {
   Body,
   Param,
   Delete,
-  UseGuards,
   Put,
 } from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { UsersService } from '../service/users.service';
-import { JwtAuthGuard } from 'src/jwt/jwt-guard';
 import { UserCreateService } from '../service/user-create.service';
 
 @Controller('users')

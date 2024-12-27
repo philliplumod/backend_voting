@@ -50,12 +50,7 @@ async function main() {
       userRole: {
         connect: { role_id: adminRole.role_id },
       },
-      qrCode: {
-        create: {
-          qr_id: adminQrId,
-          qr_code: adminQrBase64,
-        },
-      },
+      qr_code: adminQrBase64,
     },
   });
   console.log({ admin });
@@ -84,12 +79,7 @@ async function main() {
       userRole: {
         connect: { role_id: studentRole.role_id },
       },
-      qrCode: {
-        create: {
-          qr_id: studentQrId,
-          qr_code: studentQrBase64,
-        },
-      },
+      qr_code: studentQrBase64,
     },
   });
   console.log({ student });

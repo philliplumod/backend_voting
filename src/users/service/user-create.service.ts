@@ -7,7 +7,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { hash } from 'bcrypt';
 import { CreateUserDto } from '../dto/create-user.dto';
 import * as QRCode from 'qrcode';
-import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class UserCreateService {
@@ -33,7 +32,6 @@ export class UserCreateService {
 
       const hashPassword = await hash(createUserDto.password, 10);
 
-      const qrId = uuid();
       const userData = JSON.stringify({
         fullname: `${createUserDto.first_name} ${createUserDto.middle_initial} ${createUserDto.last_name} ${createUserDto.suffix}`,
         username: createUserDto.username,
@@ -42,16 +40,9 @@ export class UserCreateService {
         year_level: createUserDto.year_level,
         status: createUserDto.status,
       });
-      const qrImageBuffer = await QRCode.toBuffer(userData);
-      const base64QR =
-        'data:image/png;base64,' + qrImageBuffer.toString('base64');
-
-      await this.prisma.qrCode.create({
-        data: {
-          qr_id: qrId,
-          qr_code: base64QR,
-        },
-      });
+      const qrBuffer = await QRCode.toBuffer(userData);
+      const qrImageBuffer =
+        'data:image/png;base64,' + qrBuffer.toString('base64');
 
       const user = await this.prisma.user.create({
         data: {
@@ -65,7 +56,7 @@ export class UserCreateService {
           year_level: createUserDto.year_level,
           status: createUserDto.status,
           password: hashPassword,
-          qr_code_id: qrId,
+          qr_code: qrImageBuffer,
           user_role_id: createUserDto.user_role_id,
         },
       });

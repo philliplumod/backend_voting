@@ -12,8 +12,8 @@ CREATE TABLE "User" (
     "year_level" INTEGER NOT NULL,
     "status" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "qr_code" TEXT NOT NULL,
     "user_role_id" INTEGER NOT NULL,
-    "qr_code_id" TEXT NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("user_id")
 );
@@ -27,15 +27,6 @@ CREATE TABLE "UserRole" (
     CONSTRAINT "UserRole_pkey" PRIMARY KEY ("role_id")
 );
 
--- CreateTable
-CREATE TABLE "QrCode" (
-    "qr_id" TEXT NOT NULL,
-    "qr_code" TEXT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "QrCode_pkey" PRIMARY KEY ("qr_id")
-);
-
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
@@ -43,13 +34,7 @@ CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_qr_code_id_key" ON "User"("qr_code_id");
-
--- CreateIndex
 CREATE UNIQUE INDEX "UserRole_role_key" ON "UserRole"("role");
 
 -- AddForeignKey
 ALTER TABLE "User" ADD CONSTRAINT "User_user_role_id_fkey" FOREIGN KEY ("user_role_id") REFERENCES "UserRole"("role_id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_qr_code_id_fkey" FOREIGN KEY ("qr_code_id") REFERENCES "QrCode"("qr_id") ON DELETE RESTRICT ON UPDATE CASCADE;

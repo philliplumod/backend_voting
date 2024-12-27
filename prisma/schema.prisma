@@ -20,12 +20,11 @@ model User {
   year_level      Int
   status          String
   created_at      DateTime @default(now())
+  qr_code         String   
 
   user_role_id    Int   
   userRole        UserRole @relation(fields: [user_role_id], references: [role_id])
 
-  qr_code_id      String  @unique
-  qrCode          QrCode @relation(fields: [qr_code_id], references: [qr_id])
 }
 
   model UserRole {
@@ -36,13 +35,7 @@ model User {
   users      User[]
 }
 
-model QrCode {
-  qr_id           String   @id @default(uuid())
-  qr_code         String  
-  created_at      DateTime @default(now())
 
-  user            User?
-}
 
 // model Votes {
 //   vote_id         String   @id @default(uuid())

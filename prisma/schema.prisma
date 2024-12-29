@@ -7,6 +7,7 @@
 generator client {
   provider = "prisma-client-js"
 }
+
 model User {
   user_id         String   @id @default(uuid())
   username        String   @unique
@@ -20,14 +21,16 @@ model User {
   year_level      Int
   status          String
   created_at      DateTime @default(now())
-  qr_code         String   
+  qr_code         String
 
-  user_role_id    Int   
+  user_role_id    Int 
   userRole        UserRole @relation(fields: [user_role_id], references: [role_id])
 
+  ballots         Ballot[] @relation("UserBallots")
+  votes           Votes[]  @relation("UserVotes")
 }
 
-  model UserRole {
+model UserRole {
   role_id    Int      @id @default(autoincrement())
   role       String   @unique
   created_at DateTime @default(now())
@@ -35,18 +38,77 @@ model User {
   users      User[]
 }
 
+model Votes {
+  vote_id       String    @id @default(uuid())
+  user_id       String
+  ballot_id     String
+  candidate_id  String
+  vote_date     DateTime  @default(now())
 
+  user         User      @relation("UserVotes", fields: [user_id], references: [user_id])
+  ballot       Ballot    @relation("BallotVotes", fields: [ballot_id], references: [ballot_id])
+  candidate    Candidate @relation("CandidateVotes", fields: [candidate_id], references: [candidate_id])
+}
 
-// model Votes {
-//   vote_id         String   @id @default(uuid())
-//   user_id         String
-//   candidate_id    String
-//   created_at      DateTime @default(now())
+model Ballot {
+  ballot_id               String   @id @default(uuid())
+  candidate_id            String
+  user_id                 String
+  position_id             String
+  year_level_eligibility  Int
+  opening_date            DateTime
+  closing_date            DateTime
+  generatedBy             String
+  qr_code                 String   @unique
+  status                  String
+  createdAt               DateTime @default(now())
 
-//   user            User @relation(fields: [user_id], references: [user_id])
-//   candidate       Candidate @relation(fields: [candidate_id], references: [candidate_id])
-// }
+  candidate   Candidate @relation("CandidateBallots", fields: [candidate_id], references: [candidate_id])
+  user        User      @relation("UserBallots", fields: [user_id], references: [user_id])
+  position    Position  @relation("PositionBallots", fields: [position_id], references: [position_id])
+  votes       Votes[]   @relation("BallotVotes")
 
+  Ballot_Results Ballot_Results[]
+}
+
+model Ballot_Results {
+  result_id     String   @id @default(uuid())
+  ballot_id     String
+  candidate_id  String
+  vote_date     Int
+  created_at    DateTime @default(now())
+
+  ballot       Ballot    @relation(fields: [ballot_id], references: [ballot_id])
+  candidate    Candidate @relation(fields: [candidate_id], references: [candidate_id])
+}
+
+model Candidate {
+  candidate_id      String   @id @default(uuid())
+  first_name        String
+  middle_initial    String
+  last_name         String
+  suffix            String?
+  candidate_number  Int
+  position_id       String
+  photo             String
+  status            String
+
+  position   Position   @relation("CandidatePosition", fields: [position_id], references: [position_id])
+  ballots    Ballot[]   @relation("CandidateBallots")
+  votes      Votes[]    @relation("CandidateVotes")
+
+  Ballot_Results Ballot_Results[]
+}
+
+model Position {
+  position_id     String   @id @default(uuid())
+  position        String   @unique
+  max_vote        Int
+  status          String
+
+  ballots     Ballot[]    @relation("PositionBallots")
+  Candidate   Candidate[] @relation("CandidatePosition")
+}
 
 datasource db {
   provider = "postgresql"

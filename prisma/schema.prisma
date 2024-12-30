@@ -93,6 +93,8 @@ model Candidate {
   photo             String
   status            String
 
+  @@unique([position_id, candidate_number])
+
   position   Position   @relation("CandidatePosition", fields: [position_id], references: [position_id])
   ballots    Ballot[]   @relation("CandidateBallots")
   votes      Votes[]    @relation("CandidateVotes")

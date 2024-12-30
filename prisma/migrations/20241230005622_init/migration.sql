@@ -104,6 +104,9 @@ CREATE UNIQUE INDEX "UserRole_role_key" ON "UserRole"("role");
 CREATE UNIQUE INDEX "Ballot_qr_code_key" ON "Ballot"("qr_code");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Candidate_position_id_candidate_number_key" ON "Candidate"("position_id", "candidate_number");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Position_position_key" ON "Position"("position");
 
 -- AddForeignKey

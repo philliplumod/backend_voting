@@ -4,8 +4,15 @@ import { PrismaModule } from './prisma/prisma.module';
 
 import { CandidatesModule } from './candidates/candidates.module';
 import { PositionModule } from './position/position.module';
+import { BallotsModule } from './ballots/ballots.module';
 
 @Module({
-  imports: [UsersModule, PrismaModule, CandidatesModule, PositionModule],
+  imports: [
+    UsersModule,
+    PrismaModule,
+    CandidatesModule,
+    PositionModule,
+    BallotsModule,
+  ],
 })
 export class AppModule {}

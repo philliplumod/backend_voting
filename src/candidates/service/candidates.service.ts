@@ -27,7 +27,9 @@ export class CandidatesService {
         },
       });
     } catch (error) {
-      throw new Error(`Failed to create candidate: ${error.message}`);
+      throw new InternalServerErrorException(
+        `Failed to create candidate: ${error.message}`,
+      );
     }
   }
 

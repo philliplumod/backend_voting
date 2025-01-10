@@ -14,15 +14,6 @@ export class CandidatesService {
 
   async create(createCandidateDto: CreateCandidateDto): Promise<Candidate> {
     try {
-      const existingCandidate = await this.prisma.candidate.findFirst({
-        where: {
-          position_id: createCandidateDto.position_id,
-          candidate_number: createCandidateDto.candidate_number,
-        },
-      });
-      if (existingCandidate) {
-        throw new Error('Candidate number already used for this position');
-      }
       return await this.prisma.candidate.create({
         data: {
           first_name: createCandidateDto.first_name,
